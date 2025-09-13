@@ -1,3 +1,6 @@
+# TEST FILE UPDATE via GIT commands
+print("My name is Oksana")
+
 # task 01 == Виправте синтаксичні помилки
 print("Hello", end=" ")
 print("world!")
