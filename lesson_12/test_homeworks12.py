@@ -5,11 +5,20 @@ from lesson_12.homework12 import divide, Student, ArrayTransformer
 @pytest.mark.divide_test
 class TestDivide:
 
+    # def test_divide_valid(self):
+    #     assert divide(10, 2) == 5
+    #     assert divide(-6, 3) == -2
+    #     assert divide(7.5, 2.5) == 3.0
     @pytest.mark.smoke
-    def test_divide_valid(self):
-        assert divide(10, 2) == 5
-        assert divide(-6, 3) == -2
-        assert divide(7.5, 2.5) == 3.0
+    @pytest.mark.parametrize('first_value,second_value,expected_result',
+                             [
+                                 (10, 2, 5),
+                                 (-6, 3, -2),
+                                 (7.6, 2.5, 3.04),
+                             ]
+                             )
+    def test_divide_valid(self, first_value, second_value, expected_result):
+        assert divide(first_value, second_value) == expected_result
 
     def test_divide_zero(self):
         with pytest.raises(ValueError, match="Division by zero is impossible!"):
@@ -23,9 +32,17 @@ class TestDivide:
         with pytest.raises(TypeError):
             divide([], 2)
 
-    def test_divide_edge_cases(self):
-        assert divide(0, 5) == 0
-        assert divide(5, -1) == -5
+    @pytest.mark.parametrize('first_value,second_value,expected_result',
+                             [
+                                 (0, 5, 0),
+                                 (5, -1, -5)
+                             ]
+                             )
+    def test_divide_edge_cases(self, first_value, second_value, expected_result):
+        assert divide(first_value, second_value) == expected_result
+    # def test_divide_edge_cases(self):
+    #     assert divide(0, 5) == 0
+    #     assert divide(5, -1) == -5
 
 @pytest.mark.student_test
 class TestStudent:
@@ -61,16 +78,31 @@ class TestStudent:
 
 @pytest.mark.array_transformer
 class TestArrayTransformer:
-    @pytest.mark.smoke
-    def test_sum_of_numbers_valid(self):
-        assert ArrayTransformer.sum_of_numbers("1,2,3") == 6
-        assert ArrayTransformer.sum_of_numbers("10,20,30") == 60
-        assert ArrayTransformer.sum_of_numbers("0,0,0") == 0
 
-    def test_sum_of_numbers_invalid(self):
-        assert ArrayTransformer.sum_of_numbers("1,2,a") == "Не можу це зробити!"
-        assert ArrayTransformer.sum_of_numbers("qwerty") == "Не можу це зробити!"
-        assert ArrayTransformer.sum_of_numbers("") == "Не можу це зробити!"
+    @pytest.mark.smoke
+    @pytest.mark.parametrize('first_value,, expected_result',
+                                 [
+                                     ("1,2,3", 6),
+                                     ("10,20,30", 60),
+                                     ("0,0,0", 0),
+                                     ("1,2,a", "Не можу це зробити!"),
+                                     ("qwerty", "Не можу це зробити!"),
+                                     (" ", "Не можу це зробити!")
+                                 ]
+                                 )
+    def test_divide_edge_cases(self, first_value, expected_result):
+        assert ArrayTransformer.sum_of_numbers(first_value) == expected_result
+    # def test_sum_of_numbers_valid(self):
+    #     assert ArrayTransformer.sum_of_numbers("1,2,3") == 6
+    #     assert ArrayTransformer.sum_of_numbers("10,20,30") == 60
+    #     assert ArrayTransformer.sum_of_numbers("0,0,0") == 0
+
+    # def test_divide_edge_cases(self, first_value, expected_result):
+    #     assert ArrayTransformer.sum_of_numbers(first_value) == expected_result
+    # def test_sum_of_numbers_invalid(self):
+    #     assert ArrayTransformer.sum_of_numbers("1,2,a") == "Не можу це зробити!"
+    #     assert ArrayTransformer.sum_of_numbers("qwerty") == "Не можу це зробити!"
+    #     assert ArrayTransformer.sum_of_numbers("") == "Не можу це зробити!"
 
     @pytest.mark.smoke
     def test_transform_all_mixed(self):
